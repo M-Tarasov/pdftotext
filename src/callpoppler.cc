@@ -71,13 +71,11 @@ extern "C" ResultCode pdftotext_print_with_layout(char *filename, void * stream,
         return InternalError;
     }
 
-    std::unique_ptr<PDFDoc> doc = PDFDocFactory().createPDFDoc(GooString(filename), nullptr, nullptr);
+    std::unique_ptr<PDFDoc> doc(PDFDocFactory().createPDFDoc(GooString(filename), nullptr, nullptr));
 
     if (!doc->isOk()) {
         return CouldntReadPdf;
     }
-
-    TextOutputDev* textOut;
 
     int lastPage = doc->getNumPages();
 
