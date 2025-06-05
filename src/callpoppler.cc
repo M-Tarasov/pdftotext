@@ -98,6 +98,7 @@ extern "C" ResultCode pdftotext_print_with_layout(char *filename, void * stream,
 
         TextPage *page = textOut->takeText();
         page->dump(stream, output_f, true, eolUnix, false);
+        page->decRefCnt();
 
         delete textOut;
     }
