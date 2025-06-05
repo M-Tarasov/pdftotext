@@ -28,6 +28,7 @@ fn setup(callpoppler: &mut cc::Build) -> &mut cc::Build {
         .define("WITH_Cairo", "OFF")
         .define("WITH_FONTCONFIGURATION_FONTCONFIG", "OFF")
         .define("RUN_GPERF_IF_PRESENT", "OFF")
+        .define("ENABLE_UNSTABLE_API_ABI_HEADERS", "ON")
         .build();
 
     println!(
