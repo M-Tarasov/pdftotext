@@ -38,7 +38,7 @@ fn setup(callpoppler: &mut cc::Build) -> &mut cc::Build {
 
     let base = std::env::var("CARGO_MANIFEST_DIR").unwrap();
 
-    let dir = std::path::Path::new(&base).join("poppler-20.12.1/poppler");
+    let dir = std::path::Path::new(&base).join("poppler-20.12.1");
 
     let dir_config = std::path::Path::new(&static_build).join("build/poppler");
 
