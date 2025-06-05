@@ -71,9 +71,7 @@ extern "C" ResultCode pdftotext_print_with_layout(char *filename, void * stream,
         return InternalError;
     }
 
-    GooString *inputPdf = new GooString(filename);
-
-    PDFDoc *doc = PDFDocFactory().createPDFDoc(*inputPdf, nullptr, nullptr);
+    PDFDoc *doc = PDFDocFactory().createPDFDoc(GooString(filename), nullptr, nullptr);
 
     if (!doc->isOk()) {
         return CouldntReadPdf;
