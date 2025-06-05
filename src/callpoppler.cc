@@ -71,7 +71,7 @@ extern "C" ResultCode pdftotext_print_with_layout(char *filename, void * stream,
         return InternalError;
     }
 
-    PDFDoc *doc = PDFDocFactory().createPDFDoc(GooString(filename), nullptr, nullptr);
+    std::unique_ptr<PDFDoc> doc = PDFDocFactory().createPDFDoc(GooString(filename), nullptr, nullptr);
 
     if (!doc->isOk()) {
         return CouldntReadPdf;
@@ -84,21 +84,19 @@ extern "C" ResultCode pdftotext_print_with_layout(char *filename, void * stream,
     for (int pageNum = 1; pageNum <= lastPage; pageNum++) {
         newpage_f(stream, pageNum);
 
-        textOut = new TextOutputDev(nullptr, true, 0.0, false, false, false);
+        auto textOut = TextOutputDev(nullptr, true, 0.0, false, false, false);
 
-        if (!textOut->isOk()) {
+        if (!textOut.isOk()) {
             return CouldntOutput;
         }
 
-        textOut->setTextEOL(eolUnix);
+        textOut.setTextEOL(eolUnix);
 
-        doc->displayPage(textOut, pageNum, 72.0, 72.0, 0, true, false, false);
+        doc->displayPage(&textOut, pageNum, 72.0, 72.0, 0, true, false, false);
 
         TextPage *page = textOut->takeText();
         page->dump(stream, output_f, true, eolUnix, false);
         page->decRefCnt();
-
-        delete textOut;
     }
 
     return NoError;
